@@ -1,0 +1,20 @@
+enable
+configure terminal
+hostname SW-CENTRAL
+line console 0
+password SenhaSegura
+login
+exit
+enable secret SenhaEnable
+service password-encryption
+banner motd "ACESSO SO PARA PESSOAL AUTORIZADO"
+interface vlan 1
+ip address 192.168.0.254 255.255.255.0
+no shutdown
+description INTERFACE DE GERENCIAMENTO
+do wr
+
+line vty 0 15
+password SenhadaVTY
+login
+do wr
