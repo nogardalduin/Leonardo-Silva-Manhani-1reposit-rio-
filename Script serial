@@ -1,0 +1,44 @@
+enable
+configure terminal
+hostname RT-01
+banner motd "ACESSO APENAS PARA O DEPARTAMENTO DE TI"
+enable secret SenhaEnable
+line console 0
+password SenhadaConsole
+login
+exit
+ip domain-name senai.local
+username lucasjorge privilege 15 secret Batata
+username estagiario privilege 1 secret Muuu
+login block-for 60 attempts 3 within 60
+security passwords min-length 8
+crypto key generate rsa general-keys modulus 1024
+line vty 15
+password SenhadaVTY
+login local
+transport input ssh
+exec-timeout 10
+exit
+service password-encryption
+interface gigabitEthernet 0/0
+ip address 192.168.0.1 255.255.255.224
+description REDE 192.168.1.0/27
+no shutdown
+exit
+interface serial 0/0/1
+ip address 200.200.200.5 255.255.255.224
+description REDE 200.200.200.4/30
+no shutdown
+exit
+interface serial 0/0/0
+ip address 200.200.200.1 255.255.255.224
+description REDE 200.200.200.0/30
+no shutdown
+exit
+ip route 192.168.1.32 255.255.255.224 200.200.200.2
+ip route 192.168.1.32 255.255.255.224 200.200.200.6
+ip route 172.16.0.0 255.255.0.0 200.200.200.6
+ip route 172.16.0.0 255.255.0.0 200.200.200.2
+ip route 200.200.200.8 255.255.255.252 200.200.200.6
+ip route 200.200.200.8 255.255.255.252 200.200.200.2
+do wr
