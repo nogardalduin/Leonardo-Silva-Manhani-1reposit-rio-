@@ -1,0 +1,27 @@
+enable
+configure terminal
+hostname SW-01
+banner motd "ACESSO AUTORIZADO APENAS PARA O DEPARTAMENTO DE TI!"
+enable secret SenhaEnable
+ip domain-name peachanddaisy.local
+crypto key generate rsa general-keys modulus 1024
+username lucasjorge privilege 15 secret Batata
+username estagiario privilege 1 secret senha
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+line vty 0 15
+password SenhadaVTY
+transport input ssh
+exec-timeout 10
+login local
+exit
+interface vlan 1
+ip address 192.168.71.254 255.255.248.0
+description INTERFACE DE GERENCIAMENTO
+no shutdown
+exit
+ip default-gateway 192.168.64.1
+do wr
